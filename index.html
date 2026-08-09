@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" data-theme="light">
+<html lang="zh-CN" class="scroll-smooth" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -87,7 +87,7 @@
     <main>
         <section class="py-24 sm:py-32 transition-colors duration-300" style="background-color: var(--md-sys-color-surface-container-low);">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <img src="Image/logo.png" alt="Soar-fork Logo" class="h-24 mx-auto mb-6">
+                <img id="logo-img" src="Image/logo.png" alt="Soar-fork Logo" class="h-24 mx-auto mb-6">
                 <h1 class="text-4xl md:text-5xl font-bold tracking-tight animate-fade-in" style="color: var(--md-sys-color-on-surface);">Soar-fork Client</h1>
                 <p class="text-lg md:text-xl mt-6 max-w-3xl mx-auto animate-fade-in delay-100" style="color: var(--md-sys-color-on-surface-variant);">
                     A high-performance client designed for Minecraft 26.2 Fabric, based on <a href="https://github.com/Soar-Client/SoarClient" target="_blank" class="font-medium underline" style="color: var(--md-sys-color-primary);">SoarClient</a>.
@@ -179,21 +179,21 @@
                 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
                     <div>
-                        <img src="Image/Eatgrapes.png" alt="Eatgrapes" class="w-32 h-32 object-cover rounded-full mx-auto mb-4 ring-4 transition-colors duration-300" style="--tw-ring-color: var(--md-sys-color-primary-container);">
+                        <img id="dev1-img" src="Image/Eatgrapes.png" alt="Eatgrapes" class="w-32 h-32 object-cover rounded-full mx-auto mb-4 ring-4 transition-colors duration-300" style="--tw-ring-color: var(--md-sys-color-primary-container);">
                         <h3 class="text-xl font-semibold" style="color: var(--md-sys-color-on-surface);">Eatgrapes</h3>
                         <p class="font-medium mb-3" style="color: var(--md-sys-color-primary);">Lead Developer</p>
                         <a href="https://github.com/Eatgrapes" target="_blank" class="m3-outlined-button inline-flex items-center px-4 py-2 rounded-full text-sm font-medium border transition-colors" style="color: var(--md-sys-color-primary); border-color: var(--md-sys-color-outline);">GitHub</a>
                     </div>
                     
                     <div>
-                        <img src="Image/LazyChara.png" alt="LazyChara" class="w-32 h-32 object-cover rounded-full mx-auto mb-4 ring-4 transition-colors duration-300" style="--tw-ring-color: var(--md-sys-color-primary-container);">
+                        <img id="dev2-img" src="Image/LazyChara.png" alt="LazyChara" class="w-32 h-32 object-cover rounded-full mx-auto mb-4 ring-4 transition-colors duration-300" style="--tw-ring-color: var(--md-sys-color-primary-container);">
                         <h3 class="text-xl font-semibold" style="color: var(--md-sys-color-on-surface);">LazyChara</h3>
                         <p class="font-medium mb-3" style="color: var(--md-sys-color-primary);">Developer</p>
                         <a href="https://github.com/LazyChara" target="_blank" class="m3-outlined-button inline-flex items-center px-4 py-2 rounded-full text-sm font-medium border transition-colors" style="color: var(--md-sys-color-primary); border-color: var(--md-sys-color-outline);">GitHub</a>
                     </div>
                     
                     <div>
-                        <img src="Image/Cubewhy.png" alt="Cubewhy" class="w-32 h-32 object-cover rounded-full mx-auto mb-4 ring-4 transition-colors duration-300" style="--tw-ring-color: var(--md-sys-color-primary-container);">
+                        <img id="dev3-img" src="Image/Cubewhy.png" alt="Cubewhy" class="w-32 h-32 object-cover rounded-full mx-auto mb-4 ring-4 transition-colors duration-300" style="--tw-ring-color: var(--md-sys-color-primary-container);">
                         <h3 class="text-xl font-semibold" style="color: var(--md-sys-color-on-surface);">Cubewhy</h3>
                         <p class="font-medium mb-3" style="color: var(--md-sys-color-primary);">Developer</p>
                         <a href="https://github.com/Cubewhy" target="_blank" class="m3-outlined-button inline-flex items-center px-4 py-2 rounded-full text-sm font-medium border transition-colors" style="color: var(--md-sys-color-primary); border-color: var(--md-sys-color-outline);">GitHub</a>
@@ -213,6 +213,21 @@
     </footer>
 
     <script>
+        async function fetchAvatar(username, imgId) {
+            const url = `https://api.github.com/users/${username}`;
+            try {
+                const response = await fetch(url);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && data.avatar_url) {
+                        document.getElementById(imgId).src = data.avatar_url;
+                        return;
+                    }
+                }
+            } catch (e) {}
+            document.getElementById(imgId).src = `Image/${username}.png`;
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const themeToggle = document.getElementById('theme-toggle');
             const htmlEl = document.documentElement;
@@ -255,7 +270,11 @@
             document.querySelectorAll('section').forEach(section => {
                 observer.observe(section);
             });
+
+            fetchAvatar('Eatgrapes', 'dev1-img');
+            fetchAvatar('LazyChara', 'dev2-img');
+            fetchAvatar('Cubewhy', 'dev3-img');
         });
     </script>
 </body>
-    </html>
+</html>
